@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mini Cookie Clicker</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:
+radial-gradient(circle at top,#2a2a4a,#101018);
+color:white;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+height:100vh;
+}
+
+.game{
+display:flex;
+gap:50px;
+}
+
+.left{
+text-align:center;
+}
+
+h1{
+margin-bottom:20px;
+}
+
+#count{
+font-size:40px;
+margin-bottom:20px;
+}
+
+.cookie{
+width:220px;
+height:220px;
+
+border-radius:50%;
+
+background:
+radial-gradient(circle,#ffcd73,#cc7a2a);
+
+cursor:pointer;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:90px;
+
+box-shadow:
+0 0 50px orange;
+
+transition:.08s;
+}
+
+.cookie:active{
+transform:scale(.95);
+}
+
+.right{
+width:260px;
+}
+
+.shop{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+button{
+padding:14px;
+
+background:#26263d;
+
+color:white;
+
+border:none;
+
+border-radius:12px;
+
+cursor:pointer;
+
+font-size:16px;
+}
+
+button:hover{
+background:#39395f;
+}
+
+.info{
+margin-top:15px;
+opacity:.8;
+}
+
+.small{
+font-size:14px;
+opacity:.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+<div class="left">
+
+<h1>🍪 Mini Cookie Clicker</h1>
+
+<div id="count">0 Cookies</div>
+
+<div class="cookie" onclick="clickCookie()">
+🍪
+</div>
+
+<div class="info">
+<div id="perClick">
++1 per click
+</div>
+
+<div id="perSec">
+0 / sec
+</div>
+
+<button onclick="resetGame()">
+Reset
+</button>
+
+</div>
+
+</div>
+
+<div class="right">
+
+<div class="shop">
+
+<button onclick="buyCursor()">
+🤖 Auto Clicker
+<br>
+Cost: <span id="cursorCost">20</span>
+</button>
+
+<button onclick="buyPower()">
+⚡ Better Click
+<br>
+Cost: <span id="powerCost">50</span>
+</button>
+
+<button onclick="buyFactory()">
+🏭 Factory
+<br>
+Cost: <span id="factoryCost">150</span>
+</button>
+
+</div>
+
+<div class="small">
+Progress saves automatically
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let cookies=
+Number(localStorage.cookies)||0
+
+let click=
+Number(localStorage.click)||1
+
+let auto=
+Number(localStorage.auto)||0
+
+let factory=
+Number(localStorage.factory)||0
+
+let cursorCost=
+Number(localStorage.cursorCost)||20
+
+let powerCost=
+Number(localStorage.powerCost)||50
+
+let factoryCost=
+Number(localStorage.factoryCost)||150
+
+function update(){
+
+count.textContent=
+Math.floor(cookies)+" Cookies"
+
+perClick.textContent=
+"+"+click+" per click"
+
+perSec.textContent=
+(auto+(factory*5))+" / sec"
+
+document.getElementById(
+"cursorCost"
+).textContent=
+Math.floor(cursorCost)
+
+document.getElementById(
+"powerCost"
+).textContent=
+Math.floor(powerCost)
+
+document.getElementById(
+"factoryCost"
+).textContent=
+Math.floor(factoryCost)
+
+save()
+
+}
+
+function clickCookie(){
+
+cookies+=click
+
+update()
+
+}
+
+function buyCursor(){
+
+if(cookies>=cursorCost){
+
+cookies-=cursorCost
+
+auto++
+
+cursorCost*=1.6
+
+update()
+
+}
+
+}
+
+function buyPower(){
+
+if(cookies>=powerCost){
+
+cookies-=powerCost
+
+click++
+
+powerCost*=2
+
+update()
+
+}
+
+}
+
+function buyFactory(){
+
+if(cookies>=factoryCost){
+
+cookies-=factoryCost
+
+factory++
+
+factoryCost*=2.5
+
+update()
+
+}
+
+}
+
+setInterval(()=>{
+
+cookies+=auto
+
+cookies+=factory*5
+
+update()
+
+},1000)
+
+function save(){
+
+localStorage.cookies=
+cookies
+
+localStorage.click=
+click
+
+localStorage.auto=
+auto
+
+localStorage.factory=
+factory
+
+localStorage.cursorCost=
+cursorCost
+
+localStorage.powerCost=
+powerCost
+
+localStorage.factoryCost=
+factoryCost
+
+}
+
+function resetGame(){
+
+if(confirm(
+"Delete save?"
+)){
+
+localStorage.clear()
+
+location.reload()
+
+}
+
+}
+
+update()
+
+</script>
+
+</body>
+</html>
