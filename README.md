@@ -1,5 +1,7 @@
 # cookie-clicker
 simple cookie clicker
 a cookie clicker made of only HTML, and VERY simple.
-![Uploading image.png…]()
+## 📸 Screenshot
+
+![Snake Game Screenshot](screenshot.png)
 
